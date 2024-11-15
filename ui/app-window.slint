@@ -1,0 +1,152 @@
+import { Button } from "std-widgets.slint";
+
+component Tile inherits Rectangle {
+    in-out property text <=> txt.text;
+    in property <int> index;
+    callback clicked <=> touch.clicked;
+    border-width: 1px;
+    border-color: root.background.darker(25%);
+    background: touch.pressed ? #6b8282 : touch.has-hover ? #6c616c :  #456;
+    min-width: txt.preferred-width + 20px;
+    txt := Text {
+        x: (parent.width - self.width)/2 + (touch.pressed ? 2px : 0);
+        y: (parent.height - self.height)/2 + (touch.pressed ? 1px : 0);
+        color: touch.pressed ? #fff : #eee;
+    }
+    touch := TouchArea { }
+}
+
+export component WinWindow inherits Window {
+    in property <string> message: "";
+    callback restart();
+    callback quit();
+
+    width: 200px;
+    height: 200px;
+
+    VerticalLayout {
+        Text {
+            text: message;
+        }
+        HorizontalLayout {
+            Button {
+                text: "Restart";
+                clicked => {
+                    root.restart();
+                }
+            }
+            Button {
+                text: "Quit";
+                clicked => {
+                    root.quit();
+                }
+            }
+        }
+    }
+}
+
+export component AppWindow inherits Window {
+
+    width: 300px;
+    height: 300px;
+    background: gray;
+
+    in-out property <[string]> fields: [" ", " ", " ", " ", " ", " ", " ", " ", " "];
+    in-out property <string> current_player: "X";
+    in property <string> result: "";
+    callback move(int);
+
+    VerticalLayout {
+        Text {
+            text: result;
+        }
+        GridLayout {
+            spacing: 5px;
+            Tile {
+                text: fields[0];
+                index: 0;
+                row: 0;
+                col: 0;
+                clicked => {
+                    root.move(self.index);
+                }
+            }
+            Tile {
+                text: fields[1];
+                index: 1;
+                row: 0;
+                col: 1;
+                clicked => {
+                    root.move(self.index);
+                }
+            }
+            Tile {
+                text: fields[2];
+                index: 2;
+                row: 0;
+                col: 2;
+                clicked => {
+                    root.move(self.index);
+                }
+            }
+            Tile {
+                text: fields[3];
+                index: 3;
+                row: 1;
+                col: 0;
+                clicked => {
+                    root.move(self.index);
+                }
+            }
+            Tile {
+                text: fields[4];
+                index: 4;
+                row: 1;
+                col: 1;
+                clicked => {
+                    root.move(self.index);
+                }
+            }
+            Tile {
+                text: fields[5];
+                index: 5;
+                row: 1;
+                col: 2;
+                clicked => {
+                    root.move(self.index);
+                }
+            }
+            Tile {
+                text: fields[6];
+                index: 6;
+                row: 2;
+                col: 0;
+                clicked => {
+                    root.move(self.index);
+                }
+            }
+            Tile {
+                text: fields[7];
+                index: 7;
+                row: 2;
+                col: 1;
+                clicked => {
+                    root.move(self.index);
+                }
+            }
+            Tile {
+                text: fields[8];
+                index: 8;
+                row: 2;
+                col: 2;
+                clicked => {
+                    root.move(self.index);
+                }
+            }
+        }
+        Text {
+            text: "Current Player: " + current_player;
+        }
+    }
+}
+
